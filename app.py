@@ -2,8 +2,12 @@ import dash as dash
 import dash_core_components as dcc
 import dash_html_components as html
 import numpy as np
+import pandas as pd
 import plotly.graph_objs as go
+import plotly.express as px
 import dash_bootstrap_components as dbc
+
+
 
 # Initial Bootstrap
 # https://towardsdatascience.com/python-for-data-science-bootstrap-for-plotly-dash-interactive-visualizations-c294464e3e0e
@@ -55,6 +59,31 @@ statistic_button = dbc.NavItem(dbc.NavLink('Statistics',href="#statistics", exte
 trend_button = dbc.NavItem(dbc.NavLink('Trend',href="#trend", external_link=True,className='navlinks'))
 news_button = dbc.NavItem(dbc.NavLink('News',href="#news", external_link=True,className='navlinks'))
 
+
+## Data - Bus Ridership
+cta_bus_ridership = pd.read_csv("CTA_-_Ridership_-_Bus_Routes_-_Daily_Totals_by_Route.csv")
+cta_bus_ridership['Year'] = pd.DatetimeIndex(cta_bus_ridership['date']).year
+# print(cta_bus_ridership)
+annual_cta_ridership = cta_bus_ridership.groupby('Year').sum()
+# print(annual_cta_ridership)
+
+ridership_graph = px.scatter(
+    annual_cta_ridership,
+    x=annual_cta_ridership.index,
+    y="rides"
+)
+
+ridership_graph.update_layout(clickmode='event+select')
+ridership_graph.update_traces(marker_size=20)
+
+ridership_figure = html.Div([
+    dcc.Graph(
+        id="ridership",
+        figure=ridership_graph
+    )
+])
+
+
 navbar = dbc.Navbar(
     dbc.Container(
     [
@@ -101,8 +130,8 @@ app.layout = html.Div(
         jumbotron,
         html.Div(
             dbc.Row([
-                        dbc.Col(scatterplot1, width=4),
-                        dbc.Col(scatterplot2, width=8),
+                        dbc.Col(html.Div("asdasd"), width=4),
+                        dbc.Col(ridership_figure, width=8)
                     ]
                     )
                 ,className = 'container'
