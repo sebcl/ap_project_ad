@@ -103,7 +103,8 @@ ridership_figure = html.Div([
 import pandas as pd
 import plotly.express as px
 import shapefile as shp
-# import pyplot as plt
+import matplotlib.pyplot as plt
+import geopandas
 import seaborn as sns
 
 def read_shp( import_sf ):
@@ -119,8 +120,36 @@ def read_shp( import_sf ):
     
     return shapes_df
 
-city_chicago = shp.Reader("./Boundaries - City/geo_export_b127f319-53a1-4af3-924f-5b23c29c095c.shp")
-bus_stops = shp.Reader("./CTA_BusStops/CTA_BusStops.shp")
+def shape_shp_dataframe( df_to_plot, df_id, s=None):
+    # Take in dataframe and spit out matplot geo 
+    # No error handling - YOLO
+    plt.figure()
+    ax = plt.axes()
+    ax.set_aspect('equal')
+    shape_ex = df_to_plot.shape(id)
+    x_lon = np.zeros((len(shape_ex.points),1))
+    y_lat = np.zeros((len(shape_ex.points),1))
+
+    for ip in range(len(shape_ex.points)):
+        x_lon[ip] = shape_ex.points[ip][0]
+        y_lat[ip] = shape_ex.points[ip][1]    
+        
+    plt.plot(x_lon,y_lat) 
+    x0 = np.mean(x_lon)
+    y0 = np.mean(y_lat)
+    plt.text(x0, y0, s, fontsize=10)
+    # use bbox (bounding box) to set plot limits
+    plt.xlim(shape_ex.bbox[0],shape_ex.bbox[2])
+    return x0, y0
+
+test_map = geopandas.read_file("./Boundaries - City/geo_export_b127f319-53a1-4af3-924f-5b23c29c095c.shp")
+fig.ax = plt.subplots(figsize = (15,15))
+test_map.plot()
+
+# city_chicago = shp.Reader("./Boundaries - City/geo_export_b127f319-53a1-4af3-924f-5b23c29c095c.shp")
+# bus_stops = shp.Reader("./CTA_BusStops/CTA_BusStops.shp")
+
+#test2 = shape_shp_dataframe(bus_stops, )
 #cta_busstops = pd.read_csv("CTA_BusStops.csv")
 #fig = px.scatter_geo(cta_busstops,
 #lat='POINT_X',
