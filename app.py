@@ -63,7 +63,7 @@ navbar = dbc.Navbar(
             dbc.Row(
                 [
                     dbc.Col(html.Img(src=PLOTLY_LOGO,className = 'logo',height="30px")),
-#                     dbc.Col(dbc.NavbarBrand("Corona Virus", className="ml-2 work-sans")),
+                   dbc.Col(dbc.NavbarBrand("Analytical Politics", className="ml-2 work-sans")),
                 ],
                 align="center",
                 no_gutters=True,
@@ -84,26 +84,31 @@ navbar = dbc.Navbar(
 
 jumbotron = dbc.Jumbotron(
     [
-        html.H1("Revenue Dashboard", className="display-3"),
+        html.H1("Jake Foose is a dingus", className="display-3"),
         html.P(
             "A deep dive into revenue for the year, segmented by verticals.",
             className="lead blue",
         ),
         html.Hr(className="my-2"),
-        html.P(
-            "Data is updated every day at 12pm."
-        ),
         html.P(dbc.Button("Overview", color="primary"), className="lead"),
     ]
 )
 
-app.layout = html.Div([
-                    dbc.Row([
+
+app.layout = html.Div(
+    children = [
+        navbar,
+        jumbotron,
+        html.Div(
+            dbc.Row([
                         dbc.Col(scatterplot1, width=4),
                         dbc.Col(scatterplot2, width=8),
-                    ])
-                ],className = 'container'
+                    ]
+                    )
+                ,className = 'container'
             )
+    ]
+)
 
 if __name__ == '__main__':
     app.run_server()
