@@ -8,6 +8,21 @@ import plotly.express as px
 import dash_bootstrap_components as dbc
 
 
+# Functions
+
+def read_shp( import_sf ):
+    # Take in shapefile and hopefully spit something out
+    # No error handling - YOLO
+
+    fields = [col[0] for col in import_sf.fileds][1:]
+    records = import_sf.records()
+    sf_shapes = [s_sh.points for s_sh in import_sf.shapes()]
+
+    shapes_df = pd.DataFrame(columns = fields, data = records)
+    shapes_df = shapes_df.assign(coords=sf_shapes)
+    
+    return shapes_df
+
 
 # Initial Bootstrap
 # https://towardsdatascience.com/python-for-data-science-bootstrap-for-plotly-dash-interactive-visualizations-c294464e3e0e
@@ -84,6 +99,50 @@ ridership_figure = html.Div([
 ])
 
 
+#%%
+import pandas as pd
+import plotly.express as px
+import shapefile as shp
+# import pyplot as plt
+import seaborn as sns
+
+def read_shp( import_sf ):
+    # Take in shapefile and hopefully spit something out
+    # No error handling - YOLO
+
+    fields = [col[0] for col in import_sf.fields][1:]
+    records = import_sf.records()
+    sf_shapes = [s_sh.points for s_sh in import_sf.shapes()]
+
+    shapes_df = pd.DataFrame(columns = fields, data = records)
+    shapes_df = shapes_df.assign(coords=sf_shapes)
+    
+    return shapes_df
+
+city_chicago = shp.Reader("./Boundaries - City/geo_export_b127f319-53a1-4af3-924f-5b23c29c095c.shp")
+bus_stops = shp.Reader("./CTA_BusStops/CTA_BusStops.shp")
+#cta_busstops = pd.read_csv("CTA_BusStops.csv")
+#fig = px.scatter_geo(cta_busstops,
+#lat='POINT_X',
+#lon='POINT_Y')
+#
+#fig.update_layout(
+#        title = 'Most trafficked US airports<br>(Hover for airport names)',
+#        geo_scope='illinois',
+#    )
+#
+#fig.show()
+#
+#%% 
+
+ridership_figure_temp = html.Div([
+    dcc.Graph(
+        id="ridership2",
+        figure=ridership_graph
+    )
+])
+
+
 navbar = dbc.Navbar(
     dbc.Container(
     [
@@ -113,16 +172,14 @@ navbar = dbc.Navbar(
 
 jumbotron = dbc.Jumbotron(
     [
-        html.H1("Jake Foose is a dingus", className="display-3"),
+        html.H1("Title", className="display-3"),
         html.P(
             "A deep dive into revenue for the year, segmented by verticals.",
             className="lead blue",
         ),
-        html.Hr(className="my-2"),
-        html.P(dbc.Button("Overview", color="primary"), className="lead"),
+        html.Hr(className="my-2")
     ]
 )
-
 
 app.layout = html.Div(
     children = [
@@ -130,12 +187,32 @@ app.layout = html.Div(
         jumbotron,
         html.Div(
             dbc.Row([
-                        dbc.Col(html.Div("asdasd"), width=4),
-                        dbc.Col(ridership_figure, width=8)
+                        dbc.Col(
+                            html.Div([
+                                html.H2("SubTitle 1"),
+                                html.P(""),
+                                html.Hr()
+                            ]
+                            ), width=4),
+                        dbc.Col(
+                            ridership_figure, 
+                            width=8)
                     ]
                     )
                 ,className = 'container'
-            )
+        ),
+        html.Div(
+            dbc.Row([
+                dbc.Col(ridership_figure_temp, width = 8),
+                dbc.Col(
+                    html.Div([
+                       html.H2("SubTitle 2"),
+                            html.P(""),
+                            html.Hr() 
+                    ]), width = 4)
+            ]), className='container'
+        )
+
     ]
 )
 
