@@ -1,28 +1,18 @@
 import dash as dash
 import dash_core_components as dcc
 import dash_html_components as html
+import geopandas as gpd
 import numpy as np
 import pandas as pd
 import plotly.graph_objs as go
 import plotly.express as px
 import dash_bootstrap_components as dbc
+# import mkl
+
+# from components import home_button, news_button, city_bus_button, city_map_button 
 
 
 # Functions
-
-def read_shp( import_sf ):
-    # Take in shapefile and hopefully spit something out
-    # No error handling - YOLO
-
-    fields = [col[0] for col in import_sf.fileds][1:]
-    records = import_sf.records()
-    sf_shapes = [s_sh.points for s_sh in import_sf.shapes()]
-
-    shapes_df = pd.DataFrame(columns = fields, data = records)
-    shapes_df = shapes_df.assign(coords=sf_shapes)
-    
-    return shapes_df
-
 
 # Initial Bootstrap
 # https://towardsdatascience.com/python-for-data-science-bootstrap-for-plotly-dash-interactive-visualizations-c294464e3e0e
@@ -31,48 +21,8 @@ external_stylesheets = [dbc.themes.BOOTSTRAP]
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
-# creating data
-np.random.seed(42)
-random_x = np.random.randint(1,101,100)
-random_y = np.random.randint(1,101,100)
-
-colors = {'background':"#111111",'text':'#7FDBFF'}
-scatterplot1 = dcc.Graph(id='scatterplot1',
-                            figure = {'data':[
-                                go.Scatter(
-                                x=random_x,
-                                y=random_y,
-                                mode='markers',
-                                marker = {
-                                    'size':12,
-                                    'color':'rgb(51,204,155)',
-                                    'symbol':'pentagon',
-                                    'line':{'width':2}
-                                }
-                                )],
-                                'layout':go.Layout(title='Shorter Scatterplot')})
-
-scatterplot2 = dcc.Graph(id='scatterplot2',
-                                figure = {'data':[
-                                    go.Scatter(
-                                    x=random_x,
-                                    y=random_y,
-                                    mode='markers',
-                                    marker = {
-                                        'size':12,
-                                        'color':'rgb(51,140,100)',
-                                        'symbol':'pentagon',
-                                        'line':{'width':2}
-                                    }
-                                    )],
-                                    'layout':go.Layout(title='Longer Scatterplot')})
-
 PLOTLY_LOGO = "https://images.plot.ly/logo/new-branding/plotly-logomark.png"
 # defining navbar items
-home_button = dbc.NavItem(dbc.NavLink('Home',href="#home", external_link=True,className='navlinks'))
-statistic_button = dbc.NavItem(dbc.NavLink('Statistics',href="#statistics", external_link=True,className='navlinks'))
-trend_button = dbc.NavItem(dbc.NavLink('Trend',href="#trend", external_link=True,className='navlinks'))
-news_button = dbc.NavItem(dbc.NavLink('News',href="#news", external_link=True,className='navlinks'))
 
 
 ## Data - Bus Ridership
@@ -98,53 +48,50 @@ ridership_figure = html.Div([
     )
 ])
 
+#%%
+
+test_map = gpd.read_file("./Boundaries - City/geo_export_b127f319-53a1-4af3-924f-5b23c29c095c.shp")
+
+test_map
 
 #%%
-import pandas as pd
-import plotly.express as px
-import shapefile as shp
-import matplotlib.pyplot as plt
-import geopandas
-import seaborn as sns
 
-def read_shp( import_sf ):
-    # Take in shapefile and hopefully spit something out
+# def read_shp( import_sf ):
+ #   # Take in shapefile and hopefully spit something out
     # No error handling - YOLO
 
-    fields = [col[0] for col in import_sf.fields][1:]
-    records = import_sf.records()
-    sf_shapes = [s_sh.points for s_sh in import_sf.shapes()]
+#    fields = [col[0] for col in import_sf.fields][1:]
+#    records = import_sf.records()
+#    sf_shapes = [s_sh.points for s_sh in import_sf.shapes()]
 
-    shapes_df = pd.DataFrame(columns = fields, data = records)
-    shapes_df = shapes_df.assign(coords=sf_shapes)
+#    shapes_df = pd.DataFrame(columns = fields, data = records)
+#    shapes_df = shapes_df.assign(coords=sf_shapes)
     
-    return shapes_df
+#    return shapes_df
 
-def shape_shp_dataframe( df_to_plot, df_id, s=None):
+# def shape_shp_dataframe( df_to_plot, df_id, s=None):
     # Take in dataframe and spit out matplot geo 
     # No error handling - YOLO
-    plt.figure()
-    ax = plt.axes()
-    ax.set_aspect('equal')
-    shape_ex = df_to_plot.shape(id)
-    x_lon = np.zeros((len(shape_ex.points),1))
-    y_lat = np.zeros((len(shape_ex.points),1))
+ #   plt.figure()
+ #   ax = plt.axes()
+  #  ax.set_aspect('equal')
+   # shape_ex = df_to_plot.shape(id)
+  #  x_lon = np.zeros((len(shape_ex.points),1))
+   # y_lat = np.zeros((len(shape_ex.points),1))
 
-    for ip in range(len(shape_ex.points)):
-        x_lon[ip] = shape_ex.points[ip][0]
-        y_lat[ip] = shape_ex.points[ip][1]    
+ #   for ip in range(len(shape_ex.points)):
+ #       x_lon[ip] = shape_ex.points[ip][0]
+ #       y_lat[ip] = shape_ex.points[ip][1]    
         
-    plt.plot(x_lon,y_lat) 
-    x0 = np.mean(x_lon)
-    y0 = np.mean(y_lat)
-    plt.text(x0, y0, s, fontsize=10)
+ #   plt.plot(x_lon,y_lat) 
+  #  x0 = np.mean(x_lon)
+   # y0 = np.mean(y_lat)
+    #plt.text(x0, y0, s, fontsize=10)
     # use bbox (bounding box) to set plot limits
-    plt.xlim(shape_ex.bbox[0],shape_ex.bbox[2])
-    return x0, y0
+    #plt.xlim(shape_ex.bbox[0],shape_ex.bbox[2])
+    #return x0, y0
 
-test_map = geopandas.read_file("./Boundaries - City/geo_export_b127f319-53a1-4af3-924f-5b23c29c095c.shp")
-fig.ax = plt.subplots(figsize = (15,15))
-test_map.plot()
+
 
 # city_chicago = shp.Reader("./Boundaries - City/geo_export_b127f319-53a1-4af3-924f-5b23c29c095c.shp")
 # bus_stops = shp.Reader("./CTA_BusStops/CTA_BusStops.shp")
@@ -162,7 +109,33 @@ test_map.plot()
 #
 #fig.show()
 #
-#%% 
+home_button = dbc.NavItem(
+    dbc.NavLink('Home',
+        href="#home", 
+        external_link=True,
+        className='navlinks'
+        )
+    )
+
+city_map_button = dbc.NavItem(
+    dbc.NavLink('City Map',
+    href="https://data.cityofchicago.org/Facilities-Geographic-Boundaries/Boundaries-City/ewy2-6yfk",
+    external_link=True,
+    className='navlinks')
+    )
+
+city_bus_button = dbc.NavItem(
+    dbc.NavLink('Trend',
+    href="https://data.cityofchicago.org/browse?q=stops&sortBy=relevance",
+    external_link=True,
+    className='navlinks')
+ )
+
+news_button = dbc.NavItem(
+    dbc.NavLink('EDA - Links',
+    href="https://www.google.com", 
+    external_link=True,
+    className='navlinks'))
 
 ridership_figure_temp = html.Div([
     dcc.Graph(
@@ -188,7 +161,14 @@ navbar = dbc.Navbar(
             href="#home",
         ),
         dbc.NavbarToggler(id="navbar-toggler"),
-        dbc.Collapse(dbc.Nav([home_button,statistic_button,trend_button,news_button],className='ml-auto work-sans', navbar=True), id="navbar-collapse", navbar=True),
+        dbc.Collapse(
+            dbc.Nav(
+                [
+                    home_button,
+                    city_map_button,
+                    city_bus_button,
+                    news_button
+                    ],className='ml-auto work-sans', navbar=True), id="navbar-collapse", navbar=True),
     ],
     ),
     color="rgb(42,62,66)",
