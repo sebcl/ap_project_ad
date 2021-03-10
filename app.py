@@ -7,6 +7,7 @@ import pandas as pd
 import plotly.graph_objs as go
 import plotly.express as px
 import dash_bootstrap_components as dbc
+import base64
 # import mkl
 
 # from components import home_button, news_button, city_bus_button, city_map_button 
@@ -52,20 +53,23 @@ ridership_figure = html.Div([
 ])
 
 
-test_map = gpd.read_file("./Boundaries - City/geo_export_b127f319-53a1-4af3-924f-5b23c29c095c.shp")
+# Save For Later - Just utilze the png version of the bus stops :( 
 
-chi_bus_stops = gpd.read_file("./CTA_BusStops/CTA_BusStops.shp")
+    # test_map = gpd.read_file("./Boundaries - City/geo_export_b127f319-53a1-4af3-924f-5b23c29c095c.shp")
+    # chi_bus_stops = gpd.read_file("./CTA_BusStops/CTA_BusStops.shp")
+    # chi_bus_stopMap = chi_bus_stops.plot(figsize=(30,30), markersize=2)
+    # chi_bus_stopMap.set_axis_off()
 
-chi_bus_stopMap = chi_bus_stops.plot(figsize=(30,30), markersize=2)
-chi_bus_stopMap.set_axis_off()
+# Image of Bus Stops - Update to filter for certain routes?
+busStopsImage = 'chi_busStops.png' # replace with your own image
+encoded_busStopImage = base64.b64encode(open(busStopsImage, 'rb').read())
 
 illinois_map_figure = html.Div([
-    dcc.Graph(
-        id='bus_stops',
-        figure = chi_bus_stopMap
+    html.Img(
+        src='data:image/png;base64,{}'.format(encoded_busStopImage.decode()),
+        style={ 'max-width': '85%'}
         )  
     ])
-
 
 home_button = dbc.NavItem(
     dbc.NavLink('Home',
@@ -137,27 +141,32 @@ navbar = dbc.Navbar(
     
 )
 
-jumbotron = dbc.Jumbotron(
-    [
-        html.H1("Title", className="display-3"),
-        html.P(
-            "A deep dive into revenue for the year, segmented by verticals.",
-            className="lead blue",
-        ),
-        html.Hr(className="my-2")
-    ]
-)
+row1_text = "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat."
+
+row2_text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 
 app.layout = html.Div(
     children = [
         navbar,
-        jumbotron,
+        html.Div(
+            dbc.Row([
+                dbc.Col( 
+                    html.Div([
+                                html.Hr(),
+                                html.H1("Title: BLAH BLAH"),
+                                html.P(row1_text),
+                                html.Hr()
+                            ]),
+                 width=10)
+                ]
+            ), className='container'
+        ),        
         html.Div(
             dbc.Row([
                         dbc.Col(
                             html.Div([
                                 html.H2("SubTitle 1"),
-                                html.P(""),
+                                html.P(row2_text),
                                 html.Hr()
                             ]
                             ), width=4),
@@ -176,7 +185,7 @@ app.layout = html.Div(
                 dbc.Col(
                     html.Div([
                        html.H2("SubTitle 2"),
-                            html.P(""),
+                            html.P(row2_text),
                             html.Hr() 
                     ]), width = 4)
             ]), className='container'
@@ -184,6 +193,8 @@ app.layout = html.Div(
 
     ]
 )
+
+
 
 if __name__ == '__main__':
     app.run_server()
