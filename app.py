@@ -28,7 +28,10 @@ PLOTLY_LOGO = "https://images.plot.ly/logo/new-branding/plotly-logomark.png"
 ## Data - Bus Ridership
 cta_bus_ridership = pd.read_csv("CTA_-_Ridership_-_Bus_Routes_-_Daily_Totals_by_Route.csv")
 cta_bus_ridership['Year'] = pd.DatetimeIndex(cta_bus_ridership['date']).year
-# print(cta_bus_ridership)
+# Drop 2020
+cta_bus_ridership.drop(
+    cta_bus_ridership[cta_bus_ridership['Year']==2020].index, inplace=True
+)  
 annual_cta_ridership = cta_bus_ridership.groupby('Year').sum()
 # print(annual_cta_ridership)
 
@@ -48,67 +51,22 @@ ridership_figure = html.Div([
     )
 ])
 
-#%%
 
 test_map = gpd.read_file("./Boundaries - City/geo_export_b127f319-53a1-4af3-924f-5b23c29c095c.shp")
 
-test_map
+chi_bus_stops = gpd.read_file("./CTA_BusStops/CTA_BusStops.shp")
 
-#%%
+chi_bus_stopMap = chi_bus_stops.plot(figsize=(30,30), markersize=2)
+chi_bus_stopMap.set_axis_off()
 
-# def read_shp( import_sf ):
- #   # Take in shapefile and hopefully spit something out
-    # No error handling - YOLO
-
-#    fields = [col[0] for col in import_sf.fields][1:]
-#    records = import_sf.records()
-#    sf_shapes = [s_sh.points for s_sh in import_sf.shapes()]
-
-#    shapes_df = pd.DataFrame(columns = fields, data = records)
-#    shapes_df = shapes_df.assign(coords=sf_shapes)
-    
-#    return shapes_df
-
-# def shape_shp_dataframe( df_to_plot, df_id, s=None):
-    # Take in dataframe and spit out matplot geo 
-    # No error handling - YOLO
- #   plt.figure()
- #   ax = plt.axes()
-  #  ax.set_aspect('equal')
-   # shape_ex = df_to_plot.shape(id)
-  #  x_lon = np.zeros((len(shape_ex.points),1))
-   # y_lat = np.zeros((len(shape_ex.points),1))
-
- #   for ip in range(len(shape_ex.points)):
- #       x_lon[ip] = shape_ex.points[ip][0]
- #       y_lat[ip] = shape_ex.points[ip][1]    
-        
- #   plt.plot(x_lon,y_lat) 
-  #  x0 = np.mean(x_lon)
-   # y0 = np.mean(y_lat)
-    #plt.text(x0, y0, s, fontsize=10)
-    # use bbox (bounding box) to set plot limits
-    #plt.xlim(shape_ex.bbox[0],shape_ex.bbox[2])
-    #return x0, y0
+illinois_map_figure = html.Div([
+    dcc.Graph(
+        id='bus_stops',
+        figure = chi_bus_stopMap
+        )  
+    ])
 
 
-
-# city_chicago = shp.Reader("./Boundaries - City/geo_export_b127f319-53a1-4af3-924f-5b23c29c095c.shp")
-# bus_stops = shp.Reader("./CTA_BusStops/CTA_BusStops.shp")
-
-#test2 = shape_shp_dataframe(bus_stops, )
-#cta_busstops = pd.read_csv("CTA_BusStops.csv")
-#fig = px.scatter_geo(cta_busstops,
-#lat='POINT_X',
-#lon='POINT_Y')
-#
-#fig.update_layout(
-#        title = 'Most trafficked US airports<br>(Hover for airport names)',
-#        geo_scope='illinois',
-#    )
-#
-#fig.show()
-#
 home_button = dbc.NavItem(
     dbc.NavLink('Home',
         href="#home", 
@@ -212,7 +170,9 @@ app.layout = html.Div(
         ),
         html.Div(
             dbc.Row([
-                dbc.Col(ridership_figure_temp, width = 8),
+                dbc.Col(
+                    illinois_map_figure,
+                    width = 8),
                 dbc.Col(
                     html.Div([
                        html.H2("SubTitle 2"),
