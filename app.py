@@ -114,10 +114,9 @@ navbar = dbc.Navbar(
             # Use row and col to control vertical alignment of logo / brand
             dbc.Row(
                 [
-                    dbc.Col(html.Img(src=PLOTLY_LOGO,className = 'logo',height="30px")),
-                   dbc.Col(dbc.NavbarBrand("Analytical Politics", className="ml-2 work-sans")),
+                   dbc.Col(dbc.NavbarBrand("Analytical Politics II", className="ml-2 work-sans")),
                 ],
-                align="center",
+                align="left",
                 no_gutters=True,
             ),
             href="#home",
@@ -151,48 +150,84 @@ app.layout = html.Div(
         html.Div(
             dbc.Row([
                 dbc.Col( 
-                    html.Div([
-                                html.Hr(),
-                                html.H1("Title: BLAH BLAH"),
-                                html.P(row1_text),
-                                html.Hr()
-                            ]),
-                 width=10)
+                    dbc.Jumbotron(
+                    [
+                        dbc.Container(
+                            [
+                                html.H1("Get on the bus", className="display-3"),
+                                html.P(
+                                    "How to fix an unsupported system of transportation and reconnect disconnected communities",
+                                    className="lead",
+                                ),
+                                html.P(
+                                    "Identify funding streams to provide accessible and efficient bus transportation",
+                                    className="lead",
+                                ),
+                            ],
+                            fluid=True,
+                        )
+                    ],
+                    fluid=True,
+                ),
+                 width=12)
                 ]
-            ), className='container'
+            ), className='container', style={"max-width":"90%"}
         ),        
         html.Div(
             dbc.Row([
                         dbc.Col(
-                            html.Div([
-                                html.H2("SubTitle 1"),
-                                html.P(row2_text),
-                                html.Hr()
-                            ]
-                            ), width=4),
+                           dbc.Card(
+                                dbc.CardBody(
+                                    [
+                                        html.H4("Declining Bus Ridership", className="card-title"),
+                                        html.P(
+                                            "",
+                                            className="card-text",
+                                        ),
+                                        dbc.CardLink("External link", href="https://google.com"),
+                                    ]
+                                ),
+                                style={"width": "100%", "height":"100%"},
+                            ), width=8),
                         dbc.Col(
-                            ridership_figure, 
-                            width=8)
+                            dbc.Card(
+                                dbc.CardBody(
+                                    [ridership_figure]
+                                    )
+                                ), 
+                            width=4)
                     ]
                     )
-                ,className = 'container'
+                ,className = 'container', style={"max-width":"90%"}
         ),
+        html.Hr(),
         html.Div(
             dbc.Row([
                 dbc.Col(
-                    illinois_map_figure,
-                    width = 8),
+                    dbc.Card(
+                        dbc.CardBody(
+                    illinois_map_figure        
+                            )
+                        ), width = 4),
                 dbc.Col(
-                    html.Div([
-                       html.H2("SubTitle 2"),
-                            html.P(row2_text),
-                            html.Hr() 
-                    ]), width = 4)
-            ]), className='container'
+                           dbc.Card(
+                                dbc.CardBody(
+                                    [
+                                        html.H4("Chicago needs a new approach", className="card-title"),
+                                        html.P(
+                                            "",
+                                            className="card-text",
+                                        ),
+                                        dbc.CardLink("External link", href="https://google.com"),
+                                    ]
+                                ),
+                                style={"width": "100%", "height":"100%"},
+                            ), width= 8 )
+            ]
+                    ), className='container', style={"max-width":"90%"}
         )
-
     ]
-)
+, style={"background-color": "#e9ecef"})
 
 
 
