@@ -67,7 +67,7 @@ encoded_busStopImage = base64.b64encode(open(busStopsImage, 'rb').read())
 illinois_map_figure = html.Div([
     html.Img(
         src='data:image/png;base64,{}'.format(encoded_busStopImage.decode()),
-        style={ 'max-width': '85%'}
+        style={ 'max-width': '90%'}
         )  
     ])
 
@@ -136,9 +136,27 @@ navbar = dbc.Navbar(
     dark=True,
     style = {'background-color':'#191919'},
     className = 'navbar-change',
-    expand= 'lg'
-    
+    expand= 'lg'   
 )
+
+group_info = dbc.Row(
+    [
+     
+     dbc.Col([
+    dbc.Card(
+    dbc.ListGroup(
+        [
+            dbc.ListGroupItem("Joe Kensok"),
+            dbc.ListGroupItem("Jake Foose"),
+            dbc.ListGroupItem("Aidan Coffey"),
+            dbc.ListGroupItem("Sebastian Clavijo")
+        ],
+        flush=True, className="align-self-center h-50"
+    ),
+    style={"width": "100%"}, className="align-self-center h-50"
+)
+])], align="center"
+    )
 
 row1_text = "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat."
 
@@ -154,7 +172,7 @@ app.layout = html.Div(
                     [
                         dbc.Container(
                             [
-                                html.H1("Get on the bus", className="display-3"),
+                                html.H1("P.S. I bus you", className="display-3"),
                                 html.P(
                                     "How to fix an unsupported system of transportation and reconnect disconnected communities",
                                     className="lead",
@@ -163,13 +181,15 @@ app.layout = html.Div(
                                     "Identify funding streams to provide accessible and efficient bus transportation",
                                     className="lead",
                                 ),
+                                html.Br(),
+                                html.H6("by: Sebastian Clavijo, Aidan Coffey, Joe Kensok, Jake Foose")
                             ],
                             fluid=True,
                         )
                     ],
                     fluid=True,
                 ),
-                 width=12)
+                 width=10)
                 ]
             ), className='container', style={"max-width":"90%"}
         ),        
@@ -179,7 +199,7 @@ app.layout = html.Div(
                            dbc.Card(
                                 dbc.CardBody(
                                     [
-                                        html.H4("Declining Bus Ridership", className="card-title"),
+                                        html.H4("The Problem: ", className="card-title"),
                                         html.P(
                                             "",
                                             className="card-text",
@@ -202,6 +222,19 @@ app.layout = html.Div(
         ),
         html.Hr(),
         html.Div(
+            dbc.Row(
+                [dbc.Col(
+                    dbc.Card(
+                        dbc.CardBody(
+                            html.P(
+                                "A survey of individuals making $25,000 or less conducted by the Active Transportation Alliance found that 80% of respondents use the public transportation system to access their job. It is the people who rely on the public transportation system the most that are the most underserved. The City of Chicago has left over 30% of its citizens trapped without the means to help themselves."
+                                , className="card-text"))
+                        ), width=12
+                    )]
+                ), className='container', style={"max-width":"90%"}
+            ),
+        html.Hr(),
+        html.Div(
             dbc.Row([
                 dbc.Col(
                     dbc.Card(
@@ -213,7 +246,7 @@ app.layout = html.Div(
                            dbc.Card(
                                 dbc.CardBody(
                                     [
-                                        html.H4("Chicago needs a new approach", className="card-title"),
+                                        html.H4("Our Solution: ", className="card-title"),
                                         html.P(
                                             "",
                                             className="card-text",
@@ -225,7 +258,22 @@ app.layout = html.Div(
                             ), width= 8 )
             ]
                     ), className='container', style={"max-width":"90%"}
-        )
+        ),
+        html.Hr(),
+        html.Div(
+            dbc.Row(
+                [dbc.Col(
+                    dbc.Card(
+                        dbc.CardBody(
+                            html.P(
+                                "By utilizing this money, Denver’s rail ridership has gone up, Los Angeles is considering making their public transit free, and Seattle’s public transit system has seen years of rapid growth. Chicago, on the other hand, has been reducing the proportion of sales tax being used for public transit for the past several years, deferring maintenance and capital improvement projects. If Chicago is serious about improving its transit system, it should improve the funding streams it has, implement new ones, and then commit to using that money for public transit.",
+                                className="card-text")
+                            )
+                        ), width=12
+                    )]
+                ), className="container", style={"max-width":"90%"}
+            ),
+        html.Hr(),
     ]
 , style={"background-color": "#e9ecef"})
 
