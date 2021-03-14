@@ -1,13 +1,14 @@
-Package                       Version
------------------------------ -------------------
-dash                          1.19.0
-dash-bootstrap-components     0.11.3
-dash-core-components          1.15.0
-dash-html-components          1.1.2
-dash-renderer                 1.9.0
-dash-table                    4.11.2
-numpy                         1.19.2
-pandas                        1.2.3
-pandocfilters                 1.4.3
-pip                           21.0.1
-plotly                        4.14.3
+dash @ file:///tmp/build/80754af9/dash_1611168717544/work
+dash-bootstrap-components==0.11.3
+dash-core-components==1.15.0
+dash-html-components==1.1.2
+dash-renderer==1.9.0
+dash-table==4.11.2
+Flask @ file:///home/ktietz/src/ci/flask_1611932660458/work
+Flask-Compress @ file:///tmp/build/80754af9/flask-compress_1613587450386/work
+matplotlib @ file:///C:/ci/matplotlib-suite_1613408055530/work
+numpy @ file:///C:/ci/numpy_and_numpy_base_1603466732592/work
+pandas @ file:///C:/ci/pandas_1614711443373/work
+pandocfilters @ file:///C:/ci/pandocfilters_1605102497129/work
+parso @ file:///tmp/build/80754af9/parso_1607623074025/work
+plotly @ file:///tmp/build/80754af9/plotly_1610565580232/work
