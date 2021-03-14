@@ -1,7 +1,7 @@
 # AP II - Advertisement
 
-Basic build. 
+Basic build.
 
-Install packages in requirements.txt with conda
+Issues with venv and dependencies. Will need to manually import the packages required to run. 
 
-[contact]: sclavijo@uchicago.edu
+sclavijo@uchicago.edu
