@@ -1,8 +1,7 @@
-# ap_project_ad
-AP Final Project / Advertisement
+# AP II - Advertisement
 
+Basic build. 
 
-Developer Notes: 
+Install packages in requirements.txt with conda
 
-Needs some definite rework. Swapped to conda after 15 hours in and entered dependency hell.
-
+[contact]: sclavijo@uchicago.edu
