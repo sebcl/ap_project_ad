@@ -1,10 +1,10 @@
 import dash as dash
 import dash_core_components as dcc
 import dash_html_components as html
-import geopandas as gpd
-import numpy as np
+# import geopandas as gpd
+# import numpy as np
 import pandas as pd
-import plotly.graph_objs as go
+# import plotly.graph_objs as go
 import plotly.express as px
 import dash_bootstrap_components as dbc
 import base64
