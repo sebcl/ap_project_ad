@@ -1,6 +1,6 @@
 name: base
 channels:
-  - defaults
+  - conda-forge
 dependencies:
   - _ipyw_jlab_nb_ext_conf=0.1.0=py38_0
   - anaconda-client=1.7.2=py38_0
